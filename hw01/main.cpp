@@ -5,7 +5,7 @@
 
 void fillMatrixWithRandom(Matrix &matrix, int min, int max);
 void printMatrix(Matrix &matrix);
-void printArray(std::vector<double> arr);
+void printVector(std::vector<double> vec);
 
 int main()
 {
@@ -32,22 +32,22 @@ int main()
 
     std::vector<double> row = matrix.GetRow(2);
     std::cout << "Row with index 2: ";
-    printArray(row);
+    printVector(row);
     std::cout << std::endl;
 
     std::vector<double> col = matrix.GetCol(2);
     std::cout << "Column with index 2: ";
-    printArray(col);
+    printVector(col);
     std::cout << std::endl;
 
     std::vector<double> diag = matrix.GetDiagonal();
     std::cout << "Main Diagonal: ";
-    printArray(diag);
+    printVector(diag);
     std::cout << std::endl;
 
     std::vector<double> invDiag = matrix.GetInverseDiagonal();
     std::cout << "Inverse Diagonal: ";
-    printArray(invDiag);
+    printVector(invDiag);
     std::cout << std::endl;
 
     int det = matrix.CalculateDeterminant();
@@ -88,11 +88,11 @@ void printMatrix(Matrix &matrix)
     }
 }
 
-void printArray(std::vector<double> arr)
+void printVector(std::vector<double> vec)
 {
-    for (unsigned int i = 0; i < arr.size(); i++)
+    for (unsigned int i = 0; i < vec.size(); i++)
     {
-        std::cout << std::setw(2) << arr[i] << " ";
+        std::cout << std::setw(2) << vec[i] << " ";
     }
     std::cout << std::endl;
 }
