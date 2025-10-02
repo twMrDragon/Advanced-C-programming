@@ -54,8 +54,105 @@
 
 ---
 
-## 範例截圖
+## 其他函數
 
-執行 main 後的輸出
+| 函數                                                          | 說明               |
+| ------------------------------------------------------------- | ------------------ |
+| `void fillMatrixWithRandom(Matrix &matrix, int min, int max)` | 填充隨機亂數到矩陣 |
+| `void printMatrix(Matrix &matrix)`                            | 印出矩陣           |
+| `void printVector(std::vector<double> vec)`                   | 印出陣列           |
+
+---
+
+## 範例
+
+宣告矩陣，隨機填充 1~9 進去:
+
+```c++
+Matrix matrix(4);
+fillMatrixWithRandom(matrix, 1, 9);
+
+std::cout << "Original Matrix:" << std::endl;
+printMatrix(matrix);
+std::cout << std::endl;
+```
 
 ![alt text](images/image.png)
+
+找出矩陣中最大最小值:
+
+```c++
+std::cout << "Largest: " << matrix.Largest() << std::endl;
+std::cout << "Smallest: " << matrix.Smallest() << std::endl;
+std::cout << std::endl;
+```
+
+![alt text](images/image-1.png)
+
+矩陣轉至:
+
+```c++
+matrix.Transpose();
+std::cout << "Transposed Matrix:" << std::endl;
+printMatrix(matrix);
+std::cout << std::endl;
+```
+
+![alt text](images/image-2.png)
+
+矩陣順時鐘 90 度旋轉:
+
+```c++
+matrix.Rot90();
+std::cout << "Rotated 90 Degrees Matrix:" << std::endl;
+printMatrix(matrix);
+std::cout << std::endl;
+```
+
+![alt text](images/image-3.png)
+
+找出特定列、行、主對角線、副對角線:
+
+```c++
+std::vector<double> row = matrix.GetRow(2);
+std::cout << "Row with index 2: ";
+printVector(row);
+std::cout << std::endl;
+
+std::vector<double> col = matrix.GetCol(2);
+std::cout << "Column with index 2: ";
+printVector(col);
+std::cout << std::endl;
+
+std::vector<double> diag = matrix.GetDiagonal();
+std::cout << "Main Diagonal: ";
+printVector(diag);
+std::cout << std::endl;
+
+std::vector<double> invDiag = matrix.GetInverseDiagonal();
+std::cout << "Inverse Diagonal: ";
+printVector(invDiag);
+std::cout << std::endl;
+```
+
+![alt text](images/image-4.png)
+
+計算行列式:
+
+```c++
+int det = matrix.CalculateDeterminant();
+std::cout << "Determinant: " << det << std::endl;
+std::cout << std::endl;
+```
+
+![alt text](images/image-5.png)
+
+找出反矩陣:
+
+```c++
+Matrix inv = matrix.Invert();
+std::cout << "Inverted Matrix:" << std::endl;
+printMatrix(inv);
+```
+
+![alt text](images/image-6.png)
