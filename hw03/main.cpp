@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 
  	// Output image file (PPM Format)
  	printf("Writing out image file: \"render.ppm\"\n");
- 	FILE *image = fopen("/Users/cychiang/Documents/code/C/BVH_Clion2/render.ppm", "w");
+ 	FILE *image = fopen("./render.ppm", "w");
  	fprintf(image, "P6\n%d %d\n255\n", width, height);
  	for(size_t j=0; j<height; ++j) {
  		for(size_t i=0; i<width; ++i) {
