@@ -59,7 +59,7 @@ const unsigned int N = 500;
 | 1000x1000         | Build BVH: 0ms <br> Render: 1206ms | Build BVH: 2ms <br> Render: 1152ms | Build BVH: 3ms <br> Render: 1393ms | Build BVH: 12ms <br> Render: 1159ms |
 | 1920x1080         | Build BVH: 0ms <br> Render: 2572ms | Build BVH: 1ms <br> Render: 2029ms | Build BVH: 4ms <br> Render: 2356ms | Build BVH: 11ms <br> Render: 2406ms |
 
-## BVH 說明
+## 程式說明
 
 ### main
 
@@ -78,7 +78,7 @@ BVH 在建立時會切割成子節點，切割完後該節點物件數量小於 
 
 這樣可以避免建的樹太深。
 
-### build()
+### BVH::build()
 
 1. 把全部物件算做一個節點
 2. 算出節點的碰撞箱和重心
