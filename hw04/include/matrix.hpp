@@ -10,6 +10,7 @@ private:
     size_t rows;
     size_t cols;
     std::vector<int> data;
+    void MultiplyPartial(const Matrix &other, Matrix &result, size_t start_row, size_t end_row) const;
 
 public:
     Matrix(size_t rows, size_t cols);

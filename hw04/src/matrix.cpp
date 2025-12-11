@@ -75,22 +75,29 @@ Matrix Matrix::MultiThreadMul(const Matrix &other) const
     {
         size_t start_row = t * rows_per_thread;
         size_t end_row = std::min(start_row + rows_per_thread, rows);
-        threads[t] = std::thread([&, start_row, end_row]()
-                                 {
-        for (size_t i = start_row; i < end_row; ++i) {
-            for (size_t j = 0; j < other.cols; ++j) {
-                int sum = 0;
-                for (size_t k = 0; k < cols; ++k)
-                    sum += Get(i, k) * other.Get(k, j);
-                result.Set(i, j, sum);
-            }
-        } });
+        threads[t] = std::thread(&Matrix::MultiplyPartial, this, std::ref(other), std::ref(result), start_row, end_row);
     }
 
     for (auto &th : threads)
         th.join();
 
     return result;
+}
+
+void Matrix::MultiplyPartial(const Matrix &other, Matrix &result, size_t start_row, size_t end_row) const
+{
+    for (size_t i = start_row; i < end_row; ++i)
+    {
+        for (size_t j = 0; j < other.cols; ++j)
+        {
+            int sum = 0;
+            for (size_t k = 0; k < cols; ++k)
+            {
+                sum += Get(i, k) * other.Get(k, j);
+            }
+            result.Set(i, j, sum);
+        }
+    }
 }
 
 bool Matrix::operator==(const Matrix &other) const

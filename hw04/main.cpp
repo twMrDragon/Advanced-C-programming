@@ -93,9 +93,13 @@ int main()
     Matrix matrix2(500, 1000);
     FillMatrix(matrix2, 1, 99);
 
-    // Matrix result1 = matrix1.SequentialMul(matrix2);
-    // Matrix result2 = matrix1.MultiThreadMul(matrix2);
-    // std::cout << (result1 == result2) << std::endl;
+    MeasureResult<Matrix> result1 = MeasureTime<Matrix>([&]
+                                                        { return matrix1.SequentialMul(matrix2); });
+    MeasureResult<Matrix> result2 = MeasureTime<Matrix>([&]
+                                                        { return matrix1.MultiThreadMul(matrix2); });
+    std::cout << "Sequential Mul Time: " << result1.time_ms << " ms" << std::endl;
+    std::cout << "MultiThread Mul Time: " << result2.time_ms << " ms" << std::endl;
+    std::cout << (result1.value == result2.value) << std::endl;
 
     TEST();
 
