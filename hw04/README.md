@@ -1,36 +1,36 @@
-#include "matrix.hpp"
-#include <stdexcept>
-#include <string>
-#include <thread>
+# Homework 4 – Matrix Multiplication
 
-Matrix::Matrix(size_t rows, size_t cols) : rows(rows), cols(cols), data(rows * cols)
+## Matrix
+
+矩陣類別包含基本資料(行數、列數和元素)及乘法運算
+
+```cpp
+class Matrix
 {
-}
+private:
+    size_t rows;
+    size_t cols;
+    std::vector<int> data;
+    void MultiplyPartial(const Matrix &other, Matrix &result, size_t start_row, size_t end_row) const;
 
-Matrix::~Matrix()
-{
-}
+public:
+    Matrix(size_t rows, size_t cols);
+    ~Matrix();
+    int Get(int row, int col) const;
+    void Set(int row, int col, int value);
+    size_t RowSize() const;
+    size_t ColumnSize() const;
+    Matrix SequentialMul(const Matrix &other) const;
+    Matrix MultiThreadMul(const Matrix &other) const;
+    bool operator==(const Matrix &other) const;
+};
+```
 
-int Matrix::Get(int row, int col) const
-{
-    return data[row * cols + col];
-}
+### SequentialMul
 
-void Matrix::Set(int row, int col, int value)
-{
-    data[row * cols + col] = value;
-}
+根據矩陣相乘的定義，把第 `i` 個 `row` 和第 `j` 個 `column` 裡的對應元素相乘並相加。
 
-size_t Matrix::RowSize() const
-{
-    return rows;
-}
-
-size_t Matrix::ColumnSize() const
-{
-    return cols;
-}
-
+```cpp
 Matrix Matrix::SequentialMul(const Matrix &other) const
 {
     if (cols != other.rows)
@@ -55,7 +55,13 @@ Matrix Matrix::SequentialMul(const Matrix &other) const
 
     return result;
 }
+```
 
+### MultiThreadMul
+
+根據矩陣相乘的定義做計算，但是把計算分給多個 thread 處理，同時計算減少整體運算時間，並且因為計算時不會互相引響，所以不會有競爭條件。
+
+```cpp
 Matrix Matrix::MultiThreadMul(const Matrix &other) const
 {
     if (cols != other.rows)
@@ -101,16 +107,22 @@ void Matrix::MultiplyPartial(const Matrix &other, Matrix &result, size_t start_r
         }
     }
 }
+```
 
-bool Matrix::operator==(const Matrix &other) const
-{
-    if (rows != other.rows || cols != other.cols)
-        return false;
+## 計算負載
 
-    for (size_t r = 0; r < rows; ++r)
-        for (size_t c = 0; c < cols; ++c)
-            if (Get(r, c) != other.Get(r, c))
-                return false;
+矩陣乘法時間複雜度是 $O(n^{3})$，本身就是一種計算量非常龐大的操作。
 
-    return true;
-}
+使用多個 thread 是把運算量分散到不同地方同時運算，減少總計算時間。
+
+## 測試
+
+### 1000x500 和 500x1000 的矩陣相乘
+
+- Sequential Mul Time: 9491.31 ms
+- MultiThread Mul Time: 2674.37 ms
+
+### 1000xN 和 Nx1000 的矩陣相乘 (N 從 10~1000)
+
+單執行緒和多執行緒在不同大小矩陣相乘情況下用時:
+![](./images/image.png)
